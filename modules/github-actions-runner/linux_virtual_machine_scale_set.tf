@@ -2,7 +2,7 @@
 resource "azurerm_linux_virtual_machine_scale_set" "this" {
   count = var.gh_runner_type == local.gh_runner_vmss ? 1 : 0
 
-  name                = "${var.project.customer}${var.project.name}${var.project.environment}ghrss"
+  name                = "${var.project.customer}${var.project.name}${var.project.environment}gharss"
   location            = var.location
   resource_group_name = azurerm_resource_group.this.name
 
@@ -21,7 +21,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
 
 
   network_interface {
-    name    = "${var.project.customer}${var.project.name}${var.project.environment}ghrss-nic"
+    name    = "${var.project.customer}${var.project.name}${var.project.environment}gharss-nic"
     primary = true
 
     ip_configuration {
@@ -29,8 +29,8 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
       primary   = true
       subnet_id = azurerm_subnet.this.id
       public_ip_address {
-        name              = "${var.project.customer}${var.project.name}${var.project.environment}ghrss-pip"
-        domain_name_label = "${var.project.customer}${var.project.name}${var.project.environment}ghrss"
+        name              = "${var.project.customer}${var.project.name}${var.project.environment}gharss-pip"
+        domain_name_label = "${var.project.customer}${var.project.name}${var.project.environment}gharss"
       }
     }
   }

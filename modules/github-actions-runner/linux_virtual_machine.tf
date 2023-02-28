@@ -2,19 +2,19 @@
 resource "azurerm_public_ip" "this" {
   count = var.gh_runner_type == local.gh_runner_vm ? 1 : 0
 
-  name                = "${var.project.customer}${var.project.name}${var.project.environment}ghr-pip"
+  name                = "${var.project.customer}${var.project.name}${var.project.environment}ghar-pip"
   location            = var.location
   resource_group_name = azurerm_resource_group.this.name
 
   allocation_method = "Dynamic"
-  domain_name_label = "${var.project.customer}${var.project.name}${var.project.environment}ghr"
+  domain_name_label = "${var.project.customer}${var.project.name}${var.project.environment}ghar"
 }
 
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface
 resource "azurerm_network_interface" "this" {
   count = var.gh_runner_type == local.gh_runner_vm ? 1 : 0
 
-  name                = "${var.project.customer}${var.project.name}${var.project.environment}ghr-nic"
+  name                = "${var.project.customer}${var.project.name}${var.project.environment}ghar-nic"
   location            = var.location
   resource_group_name = azurerm_resource_group.this.name
 
@@ -30,7 +30,7 @@ resource "azurerm_network_interface" "this" {
 resource "azurerm_linux_virtual_machine" "this" {
   count = var.gh_runner_type == local.gh_runner_vm ? 1 : 0
 
-  name                = "${var.project.customer}${var.project.name}${var.project.environment}ghr"
+  name                = "${var.project.customer}${var.project.name}${var.project.environment}ghar"
   location            = var.location
   resource_group_name = azurerm_resource_group.this.name
 
@@ -50,7 +50,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   ]
 
   os_disk {
-    name                 = "${var.project.customer}${var.project.name}${var.project.environment}ghr-osdisk"
+    name                 = "${var.project.customer}${var.project.name}${var.project.environment}ghar-osdisk"
     caching              = "ReadWrite"
     storage_account_type = "StandardSSD_LRS"
   }
