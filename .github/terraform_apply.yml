@@ -6,11 +6,8 @@ on:
       CLIENT_IP:
         type: string
         required: true
-        default: "94.134.104.161"
+        default: "94.134.104.186"
         description: "Client IP"
-
-permissions:
-  contents: read
 
 permissions:
   contents: read
