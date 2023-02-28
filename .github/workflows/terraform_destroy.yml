@@ -58,7 +58,7 @@ jobs:
           export TF_VAR_admin_username=${{ vars.ADMIN_USERNAME }}
           export TF_VAR_client_ip='{"name":"ClientIP01","cidr":"${{ inputs.CLIENT_IP }}/32","start_ip_address":"${{ inputs.CLIENT_IP }}","end_ip_address":"${{ inputs.CLIENT_IP }}"}'
           export TF_VAR_client_secret=${{ secrets.CLIENT_SECRET }}
-          terraform plan -destroy -input=false -var=location=${{ inputs.LOCATION }} -var=client_ip=$TF_VAR_client_ip -out=${{ env.PLAN_FILE }}
+          terraform plan -destroy -input=false -var=client_ip=$TF_VAR_client_ip -out=${{ env.PLAN_FILE }}
 
       - name: Upload state file
         uses: actions/upload-artifact@v3
