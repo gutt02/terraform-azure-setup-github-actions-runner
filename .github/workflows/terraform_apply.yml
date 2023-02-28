@@ -83,6 +83,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      # Required if terraform calls az commands
+      - name: Azure login
+        run: |
+          az login --service-principal --username ${{ secrets.CLIENT_ID }} --password ${{ secrets.CLIENT_SECRET }} --tenant ${{ secrets.TENANT_ID }}
+          az account set --subscription ${{ vars.SUBSCRIPTION_ID }}
+        continue-on-error: true
+
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -107,3 +114,8 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -input=false ${{ env.PLAN_FILE }}
+
+      - name: Azure logout
+        run: az logout
+        continue-on-error: true
+
