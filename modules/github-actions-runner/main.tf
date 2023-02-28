@@ -16,10 +16,6 @@ provider "azurerm" {
       prevent_deletion_if_contains_resources = false
     }
 
-    template_deployment {
-      delete_nested_items_during_deletion = false
-    }
-
     virtual_machine {
       delete_os_disk_on_deletion     = true
       graceful_shutdown              = false

@@ -1,6 +1,8 @@
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine_scale_set
 resource "azurerm_linux_virtual_machine_scale_set" "this" {
-  name                = "${var.project.customer}${var.project.name}${var.project.environment}lvmss"
+  count = var.gh_runner_type == local.gh_runner_vmss ? 1 : 0
+
+  name                = "${var.project.customer}${var.project.name}${var.project.environment}ghrss"
   location            = var.location
   resource_group_name = azurerm_resource_group.this.name
 
@@ -19,7 +21,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
 
 
   network_interface {
-    name    = "${var.project.customer}${var.project.name}${var.project.environment}lvmss-nic"
+    name    = "${var.project.customer}${var.project.name}${var.project.environment}ghrss-nic"
     primary = true
 
     ip_configuration {
@@ -27,8 +29,8 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
       primary   = true
       subnet_id = azurerm_subnet.this.id
       public_ip_address {
-        name = "${var.project.customer}${var.project.name}${var.project.environment}lvmss-pip"
-        domain_name_label = "${var.project.customer}${var.project.name}${var.project.environment}lvmss"
+        name              = "${var.project.customer}${var.project.name}${var.project.environment}ghrss-pip"
+        domain_name_label = "${var.project.customer}${var.project.name}${var.project.environment}ghrss"
       }
     }
   }
@@ -51,8 +53,13 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
 # https://learn.microsoft.com/en-us/cli/azure/vm/run-command?view=azure-cli-latest#az-vm-run-command-invoke
 # https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource
 resource "null_resource" "vmss" {
-  provisioner "local-exec" {
-    command = "az vmss run-command invoke --command-id RunShellScript --name ${azurerm_linux_virtual_machine_scale_set.this.name} --resource-group ${azurerm_resource_group.this.name} --instance-id 0 --scripts 'sudo apt update && sudo apt upgrade -y && sudo apt install unzip -y'"
-  }
-}
+  count = var.gh_runner_type == local.gh_runner_vmss ? 1 : 0
 
+  provisioner "local-exec" {
+    command = "az vmss run-command invoke --command-id RunShellScript --name ${azurerm_linux_virtual_machine_scale_set.this[0].name} --resource-group ${azurerm_resource_group.this.name} --instance-id 0 --scripts @scripts/post_deployment.sh"
+  }
+
+  depends_on = [
+    azurerm_linux_virtual_machine_scale_set.this[0]
+  ]
+}

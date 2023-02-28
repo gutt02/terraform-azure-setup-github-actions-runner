@@ -2,6 +2,9 @@ locals {
   # detect OS
   # Directories start with "C:..." on Windows; All other OSs use "/" for root.
   is_windows = substr(pathexpand("~"), 0, 1) == "/" ? false : true
+
+  gh_runner_vm   = "VirtualMachine"
+  gh_runner_vmss = "VirtualMachineScaleSet"
 }
 
 variable "admin_username" {
@@ -10,10 +13,11 @@ variable "admin_username" {
   description = "Linux Virtual Machine Admin User."
 }
 
-# curl ipinfo.io/ip
-variable "agent_ip" {
+# VirtualMachine or VirtualMachineScaleSet
+variable "gh_runner_type" {
   type        = string
-  description = "IP of the deployment agent."
+  default     = "VirtualMachine"
+  description = "Type of the GitHub Runner."
 }
 
 # curl ipinfo.io/ip
@@ -56,11 +60,38 @@ variable "project" {
 
   default = {
     customer    = "azc"
-    name        = "gh"
+    name        = "base"
     environment = "vse"
   }
 
   description = "Project details, like customer name, environment, etc."
+}
+
+variable "linux_virtual_machine" {
+  type = object({
+    size = string
+
+    source_image_reference = object({
+      publisher = string
+      offer     = string
+      sku       = string
+      version   = string
+    })
+  })
+
+  default = {
+    # size = "Standard_A1_v2"
+    size = "Standard_A2_v2"
+
+    source_image_reference = {
+      publisher = "Canonical"
+      offer     = "UbuntuServer"
+      sku       = "18.04-LTS"
+      version   = "latest"
+    }
+  }
+
+  description = "Linux Virtual Machine."
 }
 
 variable "tags" {
@@ -81,32 +112,6 @@ variable "tags" {
   }
 
   description = "Default tags for resources, only applied to resource groups"
-}
-
-variable "linux_virtual_machine" {
-  type = object({
-    size = string
-
-    source_image_reference = object({
-      publisher = string
-      offer     = string
-      sku       = string
-      version   = string
-    })
-  })
-
-  default = {
-    size = "Standard_A1_v2"
-
-    source_image_reference = {
-      publisher = "Canonical"
-      offer     = "UbuntuServer"
-      sku       = "18.04-LTS"
-      version   = "latest"
-    }
-  }
-
-  description = "Linux Virtual Machine."
 }
 
 variable "virtual_network" {
