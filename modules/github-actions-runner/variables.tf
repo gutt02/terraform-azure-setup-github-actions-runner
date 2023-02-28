@@ -80,8 +80,8 @@ variable "linux_virtual_machine" {
   })
 
   default = {
-    # size = "Standard_A1_v2"
-    size = "Standard_A2_v2"
+    size = "Standard_A1_v2"
+    # size = "Standard_A2_v2"
 
     source_image_reference = {
       publisher = "Canonical"
