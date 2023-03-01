@@ -32,8 +32,8 @@ then
     sudo apt-get -yq install azure-cli
 fi
 
-grep ghrund /etc/passwd > /dev/null
+grep gharund /etc/passwd > /dev/null
 if [ $? -ne 0 ]
 then
-    sudo adduser --system --home /home/ghrund --shell /bin/bash --disabled-password ghrund
+    sudo adduser --system --home /home/gharund --shell /bin/bash --disabled-password gharund
 fi
