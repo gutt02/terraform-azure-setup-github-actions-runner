@@ -4,6 +4,7 @@
 
 * [Introduction](#introduction)
 * [Pre-Requirements](#pre-requirements)
+* [Azure Infrastructure](#azure-infrastructure)
 * [Terraform](#modules)
 * [Scripts](#scripts)
 * [GitHub Actions](#github-actions)
@@ -14,16 +15,15 @@
 
 This is a collection of Terraform scripts that show how to create Azure resources.
 
-## Infrastructure
-
-![Azure Infrastructure GitHub Actions Runner](./doc/images/AzureInfrastructureGitHubActionsRunner.png)
-
 ## Pre-Requirements
 
 * Service Principal
 * Remote Backend
 * [terraform-azure-setup-remote-backed](https://github.com/gutt02/terraform-azure-setup-remote-backend)
 
+## Azure Infrastructure
+
+![Azure Infrastructure GitHub Actions Runner](./doc/images/AzureInfrastructureGitHubActionsRunner.png)
 
 ## Terraform
 
