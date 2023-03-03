@@ -42,7 +42,7 @@ variable "admin_username" {
 
 ```hcl
 # VirtualMachine or VirtualMachineScaleSet
-variable "gh_runner_type" {
+variable "gh_actions_runner_type" {
   type        = string
   default     = "VirtualMachine"
   description = "Type of the GitHub Runner."
@@ -160,7 +160,7 @@ variable "virtual_network" {
   })
 
   default = {
-    address_space = "192.168.0.0/28"
+    address_space = "192.168.0.0/24"
 
     subnets = {
       virtual_machine = {

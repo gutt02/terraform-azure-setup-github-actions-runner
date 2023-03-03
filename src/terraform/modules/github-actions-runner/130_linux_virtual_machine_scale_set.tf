@@ -1,6 +1,6 @@
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine_scale_set
 resource "azurerm_linux_virtual_machine_scale_set" "this" {
-  count = var.gh_runner_type == local.gh_runner_vmss ? 1 : 0
+  count = var.gh_actions_runner_type == local.gh_actions_runner_vmss ? 1 : 0
 
   name                = "${var.project.customer}${var.project.name}${var.project.environment}gharss"
   location            = var.location
@@ -53,7 +53,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
 # https://learn.microsoft.com/en-us/cli/azure/vm/run-command?view=azure-cli-latest#az-vm-run-command-invoke
 # https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource
 resource "null_resource" "vmss" {
-  count = var.gh_runner_type == local.gh_runner_vmss ? 1 : 0
+  count = var.gh_actions_runner_type == local.gh_actions_runner_vmss ? 1 : 0
 
   provisioner "local-exec" {
     command = "az vmss run-command invoke --command-id RunShellScript --name ${azurerm_linux_virtual_machine_scale_set.this[0].name} --resource-group ${azurerm_resource_group.this.name} --instance-id 0 --scripts @scripts/post_deployment.sh"

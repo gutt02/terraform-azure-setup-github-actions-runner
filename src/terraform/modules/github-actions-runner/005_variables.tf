@@ -3,8 +3,8 @@ locals {
   # Directories start with "C:..." on Windows; All other OSs use "/" for root.
   is_windows = substr(pathexpand("~"), 0, 1) == "/" ? false : true
 
-  gh_runner_vm   = "VirtualMachine"
-  gh_runner_vmss = "VirtualMachineScaleSet"
+  gh_actions_runner_vm   = "VirtualMachine"
+  gh_actions_runner_vmss = "VirtualMachineScaleSet"
 }
 
 variable "admin_username" {
@@ -14,7 +14,7 @@ variable "admin_username" {
 }
 
 # VirtualMachine or VirtualMachineScaleSet
-variable "gh_runner_type" {
+variable "gh_actions_runner_type" {
   type        = string
   default     = "VirtualMachine"
   description = "Type of the GitHub Runner."

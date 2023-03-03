@@ -1,6 +1,6 @@
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip
 resource "azurerm_public_ip" "this" {
-  count = var.gh_runner_type == local.gh_runner_vm ? 1 : 0
+  count = var.gh_actions_runner_type == local.gh_actions_runner_vm ? 1 : 0
 
   name                = "${var.project.customer}${var.project.name}${var.project.environment}ghar-pip"
   location            = var.location
@@ -12,7 +12,7 @@ resource "azurerm_public_ip" "this" {
 
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface
 resource "azurerm_network_interface" "this" {
-  count = var.gh_runner_type == local.gh_runner_vm ? 1 : 0
+  count = var.gh_actions_runner_type == local.gh_actions_runner_vm ? 1 : 0
 
   name                = "${var.project.customer}${var.project.name}${var.project.environment}ghar-nic"
   location            = var.location
@@ -28,7 +28,7 @@ resource "azurerm_network_interface" "this" {
 
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine
 resource "azurerm_linux_virtual_machine" "this" {
-  count = var.gh_runner_type == local.gh_runner_vm ? 1 : 0
+  count = var.gh_actions_runner_type == local.gh_actions_runner_vm ? 1 : 0
 
   name                = "${var.project.customer}${var.project.name}${var.project.environment}ghar"
   location            = var.location
@@ -68,7 +68,7 @@ resource "azurerm_linux_virtual_machine" "this" {
 # https://learn.microsoft.com/en-us/cli/azure/vm/run-command?view=azure-cli-latest#az-vm-run-command-invoke
 # https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource
 resource "null_resource" "vm" {
-  count = var.gh_runner_type == local.gh_runner_vm ? 1 : 0
+  count = var.gh_actions_runner_type == local.gh_actions_runner_vm ? 1 : 0
 
   provisioner "local-exec" {
     command = "az vm run-command invoke --command-id RunShellScript --name ${azurerm_linux_virtual_machine.this[0].name} --resource-group ${azurerm_resource_group.this.name} --scripts @scripts/post_deployment.sh"
@@ -82,7 +82,7 @@ resource "null_resource" "vm" {
 # Shutdown virtual machine automatically
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dev_test_global_vm_shutdown_schedule
 resource "azurerm_dev_test_global_vm_shutdown_schedule" "this" {
-  count = var.gh_runner_type == local.gh_runner_vm ? 1 : 0
+  count = var.gh_actions_runner_type == local.gh_actions_runner_vm ? 1 : 0
 
   virtual_machine_id = azurerm_linux_virtual_machine.this[0].id
   location           = var.location
