@@ -16,7 +16,7 @@ This is a collection of Terraform scripts that show how to create Azure resource
 
 ## Infrastructure
 
-![Azure Infrastructure GitHub Actions Runner](./doc/images/AzureInfrastructureGitHubActionsRunner.svg)
+![Azure Infrastructure GitHub Actions Runner](./doc/images/AzureInfrastructureGitHubActionsRunner.png)
 
 ## Pre-Requirements
 
