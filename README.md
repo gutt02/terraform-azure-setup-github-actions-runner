@@ -14,6 +14,10 @@
 
 This is a collection of Terraform scripts that show how to create Azure resources.
 
+## Infrastructure
+
+![Azure Infrastructure GitHub Actions Runner](./doc/images/AzureInfrastructureGitHubActionsRunner.svg)
+
 ## Pre-Requirements
 
 * Service Principal
