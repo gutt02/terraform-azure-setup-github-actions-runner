@@ -104,7 +104,7 @@ variable "tags" {
     project     = "GitHub Agent"
   }
 
-  description = "Default tags for resources, only applied to resource groups"
+  description = "Default tags for resources, only applied to resource groups."
 }
 
 variable "virtual_network" {
